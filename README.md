@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Sasha Andrews — Portfolio
 
 Personal UX/UI design portfolio site, built from Figma designs.
@@ -24,3 +25,7 @@ git push -u origin main
 - Colors: Teal `#04879c`, Mint `#21e6c1`, Smoke `#f5f5f5`
 - Fonts: DM Serif Display, Poppins, Inknut Antiqua
 - Responsive: Mobile, Tablet, Desktop
+=======
+# Portfolio
+Portfolio
+>>>>>>> bfb4fa6398ffeeca83a80ef899d5da9f2489f5dd
