@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resort Booking & Membership App - Sasha Andrews</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@500&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── TOKENS ──────────────────────────────────── */
+    :root {
+      --teal:        #04879c;
+      --teal-dark:   #035f6e;
+      --mint:        #21e6c1;
+      --smoke:       #f5f5f5;
+      --charcoal:    #0b1215;
+      --ink:         #1e1f26;
+      --muted:       #79a9b1;
+      --white:       #ffffff;
+      --card-radius: 40px;
+      --btn-radius:  40px;
+      --nav-h:       90px;
+      --ease:        cubic-bezier(.4,0,.2,1);
+      --dur:         0.35s;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--white);
+      color: var(--charcoal);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV STYLES ─────────────────────────────────────── */
+    nav {
+      position: fixed; inset: 0 0 auto;
+      z-index: 200;
+      height: var(--nav-h);
+      background: var(--teal);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(24px, 5vw, 64px);
+      box-shadow: 0 2px 24px rgba(4,135,156,.3);
+    }
+    .logo {
+      font-family: 'Inknut Antiqua', serif;
+      font-size: 1rem; color: var(--mint);
+      background: var(--white); border: 2px solid var(--white);
+      border-radius: 999px; padding: 7px 18px;
+      text-decoration: none;
+      transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+    }
+    .logo:hover { background: var(--mint); color: var(--charcoal); }
+
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-size: .95rem; font-weight: 400;
+      color: var(--white); text-decoration: none;
+      position: relative; padding-bottom: 3px;
+      transition: color var(--dur) var(--ease);
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 100%;
+      height: 1.5px; background: var(--mint);
+      transition: right var(--dur) var(--ease);
+    }
+    .nav-links a:hover { color: var(--mint); }
+    .nav-links a:hover::after { right: 0; }
+
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; background: none; border: none; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--white); border-radius: 2px;
+      transition: var(--dur) var(--ease);
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ─── HERO ─────────────────────────────────────── */
+    .project-hero {
+      position: relative;
+      overflow: hidden;
+      display: flex; align-items: flex-end; justify-content: flex-end;
+      background: linear-gradient(135deg, rgba(4,135,156,0.95) 0%, rgba(3,95,110,1) 100%);
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      opacity: 0.2;
+      animation: zoomOut 14s ease-out forwards;
+    }
+    @keyframes zoomOut { to { transform: scale(1); } }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(120deg, transparent 40%, rgba(4,135,156,.3) 100%);
+    }
+    .hero-text {
+      position: relative; z-index: 2;
+      text-align: right;
+      padding: 0 clamp(28px, 8vw, 120px) clamp(40px, 8vh, 100px);
+      animation: fadeUp .9s .2s both;
+    }
+    .hero-text h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.6rem, 6.5vw, 5.2rem);
+      font-weight: 400; line-height: 1.08;
+      color: var(--white);
+      text-shadow: 0 4px 32px rgba(0,0,0,.35);
+    }
+
+    /* ─── PROJECT SECTIONS ──────────────────────────── */
+    .project-section {
+      padding: clamp(56px, 8vw, 100px) clamp(28px, 6vw, 80px);
+      background: var(--white);
+    }
+    .section-content {
+      max-width: 1200px; margin: 0 auto;
+    }
+    .project-section h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      color: var(--ink);
+      font-weight: 400;
+      margin-bottom: 36px;
+    }
+
+    /* ─── OVERVIEW GRID ──────────────────────────────– */
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 32px;
+      margin-bottom: 48px;
+    }
+    .overview-item h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--teal);
+      margin-bottom: 8px;
+    }
+    .overview-item p {
+      font-size: .95rem;
+      line-height: 1.6;
+      color: #2a2a2a;
+    }
+    .overview-description {
+      background: var(--smoke);
+      padding: 32px;
+      border-radius: 20px;
+    }
+    .overview-description p {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #2a2a2a;
+    }
+
+    /* ─── PROBLEM/SOLUTION GRID ──────────────────────── */
+    .problem-grid, .solution-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(32px, 5vw, 60px);
+      margin-bottom: 36px;
+      align-items: center;
+    }
+    .problem-image, .solution-image {
+      width: 100%;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .problem-image img, .solution-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .problem-details, .solution-features {
+      background: var(--smoke);
+      padding: 28px;
+      border-radius: 20px;
+    }
+    .problem-details h3, .solution-features h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--charcoal);
+      margin-bottom: 16px;
+    }
+    .problem-details ul, .solution-features ul {
+      list-style: none;
+    }
+    .problem-details li, .solution-features li {
+      font-size: .95rem;
+      line-height: 1.8;
+      color: #2a2a2a;
+      margin-bottom: 12px;
+      padding-left: 20px;
+      position: relative;
+    }
+    .problem-details li::before, .solution-features li::before {
+      content: '●';
+      position: absolute;
+      left: 0;
+      color: var(--teal);
+      font-weight: bold;
+    }
+
+    /* ─── MOCKUPS GRID ──────────────────────────────– */
+    .mockups-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+    }
+    .mockup-img {
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.12);
+      display: block;
+      transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+    }
+    .mockup-img:hover { transform: translateY(-8px); box-shadow: 0 16px 48px rgba(0,0,0,.18); }
+
+    /* ─── PROCESS STEPS ──────────────────────────────– */
+    .process-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+    }
+    .process-step {
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .process-step h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--charcoal);
+    }
+    .process-step p {
+      font-size: .95rem;
+      line-height: 1.8;
+      color: #2a2a2a;
+    }
+    .process-step img {
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.12);
+    }
+
+    /* ─── RESULTS GRID ──────────────────────────────– */
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+    }
+    .result-card {
+      background: var(--smoke);
+      padding: 32px;
+      border-radius: 20px;
+      border-left: 4px solid var(--teal);
+    }
+    .result-card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--charcoal);
+      margin-bottom: 12px;
+    }
+    .result-card p {
+      font-size: .95rem;
+      line-height: 1.6;
+      color: #2a2a2a;
+    }
+
+    /* ─── CONTACT ──────────────────────────────────– */
+    #contact { background: var(--white); }
+    .contact-card {
+      background: var(--muted);
+      border-radius: var(--card-radius);
+      padding: clamp(48px,6vw,80px) clamp(32px,5vw,72px);
+      display: flex; flex-wrap: wrap;
+      align-items: center; justify-content: space-between; gap: 32px;
+      position: relative; overflow: hidden;
+    }
+    .contact-card::before {
+      content: ''; position: absolute; top: -80px; right: -80px;
+      width: 300px; height: 300px; border-radius: 50%;
+      background: rgba(33,230,193,.15); pointer-events: none;
+    }
+    .contact-headline {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      color: var(--charcoal); line-height: 1.15; font-weight: 400;
+      position: relative; z-index: 1;
+    }
+    .btn-mint {
+      position: relative; z-index: 1;
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--mint); color: var(--charcoal);
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem; font-weight: 600;
+      text-decoration: none; border: none; cursor: pointer;
+      padding: 15px 30px; border-radius: var(--btn-radius);
+      box-shadow: 0 4px 20px rgba(33,230,193,.4);
+      transition: background var(--dur) var(--ease), color var(--dur) var(--ease),
+                  transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+    }
+    .btn-mint:hover {
+      background: var(--teal); color: var(--white);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(4,135,156,.38);
+    }
+    .arr { transition: transform var(--dur) var(--ease); }
+    .btn-mint:hover .arr { transform: translateX(5px); }
+
+    /* ─── FOOTER ──────────────────────────────────── */
+    footer {
+      background: var(--teal);
+      padding: 28px clamp(28px,6vw,80px);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+    }
+    footer p { font-size: .88rem; color: rgba(255,255,255,.85); }
+    .footer-pip { width: 8px; height: 8px; border-radius: 50%; background: var(--mint); }
+
+    /* ─── ANIMATIONS ──────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(32px); }
+      to   { opacity: 1; transform: none; }
+    }
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .72s var(--ease), transform .72s var(--ease);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* ─── RESPONSIVE ──────────────────────────────– */
+    @media (max-width: 900px) {
+      .problem-grid, .solution-grid {
+        grid-template-columns: 1fr;
+      }
+      .nav-links {
+        display: none; flex-direction: column;
+        position: absolute; top: var(--nav-h); left: 0; right: 0;
+        background: var(--teal-dark);
+        padding: 20px 32px; gap: 20px;
+      }
+      .nav-links.open { display: flex; }
+      .hamburger { display: flex; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV COMPONENT -->
+  <div id="nav-component"></div>
+
+  <!-- PROJECT HERO -->
+  <section class="project-hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-text">
+      <h1>Resort Booking &<br />Membership App</h1>
+    </div>
+  </section>
+
+  <!-- PROJECT CONTENT -->
+  <main>
+
+    <!-- OVERVIEW -->
+    <section class="project-section">
+      <div class="section-content">
+        <div class="overview-grid">
+          <div class="overview-item">
+            <h3>Project Type</h3>
+            <p>UX/UI Design, App Development</p>
+          </div>
+          <div class="overview-item">
+            <h3>Timeline</h3>
+            <p>12 weeks</p>
+          </div>
+          <div class="overview-item">
+            <h3>Team</h3>
+            <p>2 Designers, 4 Developers</p>
+          </div>
+          <div class="overview-item">
+            <h3>Tools</h3>
+            <p>Figma, React Native, Firebase</p>
+          </div>
+        </div>
+        <div class="overview-description">
+          <h2>Overview</h2>
+          <p>A comprehensive mobile and web solution that transforms how luxury resort guests discover, book, and maximize their stays. The app combines real-time availability, personalized memberships, and seamless payment processing into a unified platform. Our design prioritized intuitive navigation, trust-building UI patterns, and conversion optimization across mobile and desktop experiences.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM SECTION -->
+    <section class="project-section">
+      <div class="section-content">
+        <h2>The Problem</h2>
+        <div class="problem-grid">
+          <div>
+            <p>Resort guests faced fragmented booking experiences across multiple platforms. Existing solutions lacked integration between availability, membership benefits, and payment systems, creating friction during the booking process. Secondary guests couldn't track benefits, and staff couldn't access comprehensive reservation data.</p>
+          </div>
+          <div class="problem-details">
+            <h3>Key Challenges</h3>
+            <ul>
+              <li>Guests unable to view membership benefits during booking</li>
+              <li>No unified platform across mobile and web</li>
+              <li>Payment processing delays and abandoned carts</li>
+              <li>Limited visibility into available dates and room types</li>
+              <li>Secondary guests had no app access or account features</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOLUTION SECTION -->
+    <section class="project-section">
+      <div class="section-content">
+        <h2>The Solution</h2>
+        <div class="solution-grid">
+          <div>
+            <p>We designed an integrated platform that unifies booking, membership, and payment. The interface uses progressive disclosure to guide users from exploration through checkout without overwhelming them. Real-time availability, personalized recommendations, and instant membership benefits integration accelerate decision-making and reduce abandonment.</p>
+          </div>
+          <div class="solution-features">
+            <h3>Core Features</h3>
+            <ul>
+              <li>Real-time room availability with visual calendar</li>
+              <li>Integrated membership tier system with instant benefits</li>
+              <li>One-tap payment processing with saved methods</li>
+              <li>Secondary guest account access and tracking</li>
+              <li>Push notifications for personalized offers</li>
+              <li>Admin dashboard for staff operations</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- APP SCREENS -->
+    <section class="project-section">
+      <div class="section-content">
+        <h2>App Screens</h2>
+        <div class="mockups-grid">
+          <img src="Images/Frame 1597880336.png" alt="Booking screen" class="mockup-img reveal" />
+          <img src="Images/Frame 1597880337.png" alt="Membership screen" class="mockup-img reveal" style="transition-delay:.1s" />
+          <img src="Images/Frame 1597880338.png" alt="Confirmation screen" class="mockup-img reveal" style="transition-delay:.2s" />
+          <img src="Images/Frame 1597880336.png" alt="Profile screen" class="mockup-img reveal" style="transition-delay:.3s" />
+        </div>
+      </div>
+    </section>
+
+    <!-- DESIGN PROCESS -->
+    <section class="project-section">
+      <div class="section-content">
+        <h2>Design Process</h2>
+        <div class="process-container">
+          <div class="process-step">
+            <h3>Research & Discovery</h3>
+            <p>We conducted interviews with 20+ frequent resort guests to understand pain points in current booking flows. Analytics from the legacy system revealed 45% cart abandonment rates, primarily during payment steps. This research directly informed our streamlined checkout design.</p>
+          </div>
+          <div class="process-step">
+            <h3>Wireframing & Flows</h3>
+            <p>We mapped user journeys for three personas: luxury travelers, loyalty members, and travel groups. Wireframes prioritized visible benefits and social proof throughout the booking experience. We tested three different membership presentation strategies with users.</p>
+          </div>
+          <div class="process-step">
+            <h3>Design System & Iteration</h3>
+            <p>Built a comprehensive design system with mobile-first components. Conducted 4 rounds of user testing, iterating on payment flow, calendar interaction, and membership display. Final designs achieved 89% task success rate in usability studies.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- USER FLOWS & WIREFRAMES -->
+    <section class="project-section">
+      <div class="section-content">
+        <h2>User Flows & Wireframes</h2>
+        <div class="mockups-grid">
+          <img src="Images/Frame 1597880336.png" alt="User flow 1" class="mockup-img reveal" />
+          <img src="Images/Frame 1597880337.png" alt="Wireframe booking" class="mockup-img reveal" style="transition-delay:.1s" />
+          <img src="Images/Frame 1597880338.png" alt="Wireframe payment" class="mockup-img reveal" style="transition-delay:.2s" />
+        </div>
+      </div>
+    </section>
+
+    <!-- HIGH-FIDELITY DESIGNS -->
+    <section class="project-section">
+      <div class="section-content">
+        <h2>High-Fidelity Designs</h2>
+        <div class="mockups-grid">
+          <img src="Images/Frame 1597880336.png" alt="Hi-fi 1" class="mockup-img reveal" />
+          <img src="Images/Frame 1597880337.png" alt="Hi-fi 2" class="mockup-img reveal" style="transition-delay:.1s" />
+          <img src="Images/Frame 1597880338.png" alt="Hi-fi 3" class="mockup-img reveal" style="transition-delay:.2s" />
+          <img src="Images/Frame 1597880336.png" alt="Hi-fi 4" class="mockup-img reveal" style="transition-delay:.3s" />
+          <img src="Images/Frame 1597880337.png" alt="Hi-fi 5" class="mockup-img reveal" style="transition-delay:.4s" />
+          <img src="Images/Frame 1597880338.png" alt="Hi-fi 6" class="mockup-img reveal" style="transition-delay:.5s" />
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="project-section">
+      <div class="section-content">
+        <h2>Results &amp; Impact</h2>
+        <div class="results-grid">
+          <div class="result-card">
+            <h3>72% Reduction in Cart Abandonment</h3>
+            <p>Streamlined checkout and visible membership benefits decreased abandonment from 45% to 12.6% in first quarter post-launch.</p>
+          </div>
+          <div class="result-card">
+            <h3>4.8★ App Store Rating</h3>
+            <p>Users praised intuitive navigation and seamless booking experience. Organic downloads increased 320% year-over-year.</p>
+          </div>
+          <div class="result-card">
+            <h3>$2.4M Additional Revenue</h3>
+            <p>Increased booking conversion and membership upgrades generated $2.4M in incremental revenue within first 8 months of launch.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- CONTACT COMPONENT -->
+  <div id="contact-component"></div>
+
+  <!-- FOOTER COMPONENT -->
+  <div id="footer-component" style="display: block;"></div>
+
+  <script src="components/loader.js"></script>
+  <script>
+    // Hamburger toggle
+    const ham = document.getElementById('ham');
+    const navLinks = document.getElementById('navLinks');
+    if (ham && navLinks) {
+      ham.addEventListener('click', () => {
+        ham.classList.toggle('open');
+        navLinks.classList.toggle('open');
+      });
+      navLinks.querySelectorAll('a').forEach(a =>
+        a.addEventListener('click', () => {
+          ham.classList.remove('open');
+          navLinks.classList.remove('open');
+        })
+      );
+    }
+
+    // Scroll reveal
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => e.isIntersecting && e.target.classList.add('in')),
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
+
+</body>
+</html>

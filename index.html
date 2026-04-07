@@ -86,21 +86,19 @@
     /* ─── HERO ─────────────────────────────────────── */
     #hero {
       position: relative;
-      height: 100svh; min-height: 480px;
-      padding-top: var(--nav-h);
       overflow: hidden;
       display: flex; align-items: flex-end; justify-content: flex-end;
     }
     .hero-bg {
       position: absolute; inset: 0;
-      background: url('hero-bg.jpg') center / cover no-repeat var(--teal-dark);
+      background: url('Images/Header%20Image%20landing.png') center / cover no-repeat var(--teal-dark);
       transform: scale(1.04);
       animation: zoomOut 14s ease-out forwards;
     }
     @keyframes zoomOut { to { transform: scale(1); } }
     .hero-overlay {
       position: absolute; inset: 0;
-      background: linear-gradient(120deg, transparent 40%, rgba(4,135,156,.6) 100%);
+      background: linear-gradient(120deg, transparent 40%, rgba(4,135,156,.2) 100%);
     }
     .hero-text {
       position: relative; z-index: 2;
@@ -156,30 +154,29 @@
     .work-card {
       border-radius: var(--card-radius);
       overflow: hidden; position: relative;
-      aspect-ratio: 3 / 4;
       text-decoration: none; display: block;
+      max-width: 320px;
       transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
     }
     .work-card:hover { transform: translateY(-10px); box-shadow: 0 28px 64px rgba(0,0,0,.16); }
-    .work-card.c-mint  { background: var(--mint); }
-    .work-card.c-smoke { background: var(--smoke); }
-    .work-card.c-teal  { background: var(--teal); }
+    .work-card.c-mint  { background: transparent; }
+    .work-card.c-smoke { background: transparent; }
+    .work-card.c-teal  { background: transparent; }
 
     .card-title {
-      position: absolute; top: 40px; left: 0; right: 0;
-      text-align: center; padding: 0 20px; z-index: 2;
-      font-size: clamp(.9rem, 1.5vw, 1.1rem);
-      font-weight: 500; line-height: 1.45;
+      position: absolute; top: 24px; left: 0; right: 0;
+      text-align: center; padding: 0 16px; z-index: 2;
+      font-size: clamp(.85rem, 1.2vw, 1rem);
+      font-weight: 500; line-height: 1.4;
     }
     .c-mint .card-title, .c-smoke .card-title { color: var(--charcoal); }
     .c-teal .card-title { color: var(--smoke); }
 
     .card-mockup {
-      position: absolute; bottom: 0;
-      left: 50%; transform: translateX(-50%);
-      width: 72%; border-radius: 18px 18px 0 0;
-      object-fit: cover;
-      box-shadow: 0 -8px 40px rgba(0,0,0,.12);
+      width: 100%; height: auto;
+      display: block;
+      border-radius: var(--card-radius);
+      box-shadow: 0 8px 32px rgba(0,0,0,.12);
     }
     .card-overlay {
       position: absolute; inset: 0;
@@ -187,6 +184,7 @@
       display: flex; align-items: center; justify-content: center;
       opacity: 0; border-radius: var(--card-radius);
       transition: opacity var(--dur) var(--ease);
+      cursor: pointer;
     }
     .card-overlay span { color: var(--white); font-weight: 600; font-size: 1.05rem; }
     .work-card:hover .card-overlay { opacity: 1; }
@@ -309,18 +307,8 @@
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <a href="index.html" class="logo">SA</a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="portfolio.html">Portfolio</a></li>
-      <li><a href="resume.html">Resume</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <button class="hamburger" id="ham" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
+  <!-- NAV COMPONENT PLACEHOLDER -->
+  <div id="nav-component"></div>
 
   <!-- HERO -->
   <!-- Save your hero wave image from Figma as "hero-bg.jpg" in the same folder -->
@@ -398,45 +386,38 @@
   <section id="tools" class="section">
     <h2 class="section-label reveal">Work Tools</h2>
     <div class="tools-grid reveal" style="transition-delay:.1s">
-      <img class="tool-img" src="tool-vs.png"       alt="Visual Studio" />
-      <img class="tool-img" src="tool-figma.png"     alt="Figma" />
-      <img class="tool-img" src="tool-azure.png"     alt="Azure DevOps" />
-      <img class="tool-img" src="tool-claude.png"    alt="Claude AI" />
-      <img class="tool-img" src="tool-vscode.png"    alt="VS Code" />
-      <img class="tool-img" src="tool-lottie.png"    alt="Lottie" />
+      <img class="tool-img" src="Images/visual-studio-logo.png"       alt="Visual Studio" />
+      <img class="tool-img" src="Images/figma-logo.png"               alt="Figma" />
+      <img class="tool-img" src="Images/devops-logo.png"              alt="DevOps" />
+      <img class="tool-img" src="Images/claude-logo.png"              alt="Claude AI" />
+      <img class="tool-img" src="Images/visual-studio-code-logo.png"  alt="VS Code" />
+      <img class="tool-img" src="Images/umbraco-logo.png"             alt="Umbraco" />
     </div>
   </section>
 
-  <!-- CONTACT -->
-  <section id="contact" class="section">
-    <div class="contact-card reveal">
-      <h2 class="contact-headline">Interested in<br>working together?</h2>
-      <a href="mailto:hello@sashaandrews.com" class="btn-mint">
-        Contact Me Here <span class="arr">→</span>
-      </a>
-    </div>
-  </section>
+  <!-- CONTACT COMPONENT PLACEHOLDER -->
+  <div id="contact-component"></div>
 
-  <!-- FOOTER -->
-  <footer>
-    <p>Sasha Andrews 2026</p>
-    <div class="footer-pip"></div>
-  </footer>
+  <!-- FOOTER COMPONENT PLACEHOLDER -->
+  <div id="footer-component" style="display: block;"></div>
 
+  <script src="components/loader.js"></script>
   <script>
     // Hamburger toggle
     const ham = document.getElementById('ham');
     const navLinks = document.getElementById('navLinks');
-    ham.addEventListener('click', () => {
-      ham.classList.toggle('open');
-      navLinks.classList.toggle('open');
-    });
-    navLinks.querySelectorAll('a').forEach(a =>
-      a.addEventListener('click', () => {
-        ham.classList.remove('open');
-        navLinks.classList.remove('open');
-      })
-    );
+    if (ham && navLinks) {
+      ham.addEventListener('click', () => {
+        ham.classList.toggle('open');
+        navLinks.classList.toggle('open');
+      });
+      navLinks.querySelectorAll('a').forEach(a =>
+        a.addEventListener('click', () => {
+          ham.classList.remove('open');
+          navLinks.classList.remove('open');
+        })
+      );
+    }
 
     // Scroll reveal
     const obs = new IntersectionObserver(

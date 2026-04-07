@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sasha Andrews — Resume</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@500&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── TOKENS ──────────────────────────────────── */
+    :root {
+      --teal:        #04879c;
+      --teal-dark:   #035f6e;
+      --mint:        #21e6c1;
+      --smoke:       #f5f5f5;
+      --charcoal:    #0b1215;
+      --ink:         #1e1f26;
+      --muted:       #79a9b1;
+      --white:       #ffffff;
+      --card-radius: 40px;
+      --btn-radius:  40px;
+      --nav-h:       90px;
+      --ease:        cubic-bezier(.4,0,.2,1);
+      --dur:         0.35s;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--white);
+      color: var(--charcoal);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─────────────────────────────────────── */
+    nav {
+      position: fixed; inset: 0 0 auto;
+      z-index: 200;
+      height: var(--nav-h);
+      background: var(--teal);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(24px, 5vw, 64px);
+      box-shadow: 0 2px 24px rgba(4,135,156,.3);
+    }
+    .logo {
+      font-family: 'Inknut Antiqua', serif;
+      font-size: 1rem; color: var(--mint);
+      background: var(--white); border: 2px solid var(--white);
+      border-radius: 999px; padding: 7px 18px;
+      text-decoration: none;
+      transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+    }
+    .logo:hover { background: var(--mint); color: var(--charcoal); }
+
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-size: .95rem; font-weight: 400;
+      color: var(--white); text-decoration: none;
+      position: relative; padding-bottom: 3px;
+      transition: color var(--dur) var(--ease);
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 100%;
+      height: 1.5px; background: var(--mint);
+      transition: right var(--dur) var(--ease);
+    }
+    .nav-links a:hover { color: var(--mint); }
+    .nav-links a:hover::after { right: 0; }
+
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; background: none; border: none; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--white); border-radius: 2px;
+      transition: var(--dur) var(--ease);
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ─── CONTENT GRID ────────────────────────────── */
+    .resume-container {
+      padding: clamp(80px, 10vw, 80px) 0;
+    }
+    .resume-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(60px, 10vw, 100px);
+      margin: 0 auto;
+      padding-left: clamp(28px, 6vw, 80px);
+      padding-right: clamp(28px, 6vw, 80px);
+    }
+
+    /* ─── SECTIONS ─────────────────────────────────── */
+    .resume-section {
+      display: flex; flex-direction: column; gap: 28px;
+      margin-bottom: 48px;
+    }
+    .resume-section h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+      color: var(--ink);
+      font-weight: 400;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--smoke);
+    }
+
+    .resume-item {
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .resume-item h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--charcoal);
+    }
+    .resume-item .role {
+      font-size: .95rem;
+      font-weight: 500;
+      color: var(--teal);
+    }
+    .resume-item .dates {
+      font-size: .85rem;
+      color: var(--muted);
+      font-weight: 400;
+    }
+    .resume-item p {
+      font-size: .95rem;
+      line-height: 1.6;
+      color: #2a2a2a;
+    }
+
+    /* ─── SKILLS GRID ──────────────────────────────── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .skill-item {
+      display: flex; align-items: center; gap: 12px;
+      font-size: .95rem; color: #2a2a2a;
+    }
+    .skill-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--teal); flex-shrink: 0;
+    }
+
+    /* ─── TOOLS SECTION ────────────────────────────── */
+    .tools-list {
+      display: flex; flex-wrap: wrap; gap: 12px;
+    }
+    .tool-tag {
+      background: var(--smoke);
+      color: var(--charcoal);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: .9rem;
+      font-weight: 500;
+    }
+
+    /* ─── CONTACT ──────────────────────────────────── */
+    #contact { background: var(--teal); color: var(--white); }
+    .contact-card {
+      border-radius: 0;
+      padding: clamp(48px, 6vw, 80px) clamp(32px, 5vw, 72px);
+      background: transparent;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 32px;
+    }
+    .contact-card::before { display: none; }
+    .contact-headline {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      color: var(--white); line-height: 1.15; font-weight: 400;
+    }
+    .btn-mint { background: var(--mint); color: var(--charcoal); }
+    .btn-mint:hover {
+      background: var(--white); color: var(--teal);
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────── */
+    footer {
+      background: var(--teal);
+      padding: 28px clamp(28px,6vw,80px);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+    }
+    footer p { font-size: .88rem; color: rgba(255,255,255,.85); }
+    .footer-pip { width: 8px; height: 8px; border-radius: 50%; background: var(--mint); }
+
+    /* ─── ANIMATIONS ─────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(32px); }
+      to   { opacity: 1; transform: none; }
+    }
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .72s var(--ease), transform .72s var(--ease);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* ─── RESPONSIVE ─────────────────────────────────── */
+    @media (max-width: 900px) {
+      .resume-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        margin-top: 0;
+      }
+      .resume-section {
+        margin-bottom: 48px;
+      }
+      .nav-links {
+        display: none; flex-direction: column;
+        position: absolute; top: var(--nav-h); left: 0; right: 0;
+        background: var(--teal-dark);
+        padding: 20px 32px; gap: 20px;
+      }
+      .nav-links.open { display: flex; }
+      .hamburger { display: flex; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV COMPONENT PLACEHOLDER -->
+  <div id="nav-component"></div>
+
+  <!-- INTRO SECTION -->
+  <div style="background: var(--white); padding: clamp(80px, 10vw, 120px) clamp(28px, 6vw, 80px);">
+    <div style="margin: 0 auto; width: 100%;">
+      <!-- Name -->
+      <h1 style="font-family: 'DM Serif Display', serif; font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 400; color: var(--charcoal); margin-bottom: 48px;">Sasha Andrews</h1>
+      
+      <!-- Bio and Contact Grid -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: clamp(60px, 10vw, 100px);">
+        <div class="resume-section" style="border: none; padding: 0; margin-bottom: 0;">
+          <h2 style="border: none; padding: 0; margin-bottom: 16px; font-size: 1.1rem;">Bio</h2>
+          <p>I'm a UX/UI designer with 3 years of hands-on experience at a software development company. I thrive in cross-functional teams—working closely with developers and project managers to design intuitive, impactful experiences. I'm passionate about creating solutions that not only look great but make a real difference in people's lives.</p>
+        </div>
+        <div class="resume-section" style="border: none; padding: 0; margin-bottom: 0;">
+          <h2 style="border: none; padding: 0; margin-bottom: 16px; font-size: 1.1rem;">Contact</h2>
+          <div class="resume-item" style="gap: 16px;">
+            <div><a href="mailto:sash.andrews@gmail.com" style="color: var(--charcoal); text-decoration: none; font-size: .95rem;">sash.andrews@gmail.com</a></div>
+            <div><a href="tel:+27673377071" style="color: var(--charcoal); text-decoration: none; font-size: .95rem;">+27 673 377 071</a></div>
+            <div><a href="#" style="color: var(--charcoal); text-decoration: none; font-size: .95rem;">www.sashaandrew.com</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESUME CONTENT -->
+  <div class="resume-container">
+
+    <!-- LEFT COLUMN -->
+    <div>
+      <!-- PROJECT EXPERIENCE -->
+      <div class="resume-section reveal" style="transition-delay:.1s">
+        <h2>Project Experience</h2>
+        
+        <div class="resume-item">
+          <h3>AI Ideabanker</h3>
+          <div class="role">UX/UI Designer & Design Lead</div>
+          <div class="dates">Jan 2023 - Present</div>
+          <p>Led complete redesign of AI brainstorming platform. Developed component library, conducted user research, and iterated on designs based on A/B testing results.</p>
+        </div>
+
+        <div class="resume-item">
+          <h3>Compliance Management App</h3>
+          <div class="role">Product Designer</div>
+          <div class="dates">Aug 2022 - Dec 2022</div>
+          <p>Designed from concept to launch mobile app for compliance tracking. Collaborated with developers on implementation and conducted usability testing with end users.</p>
+        </div>
+
+        <div class="resume-item">
+          <h3>ATKV Resort & Membership App</h3>
+          <div class="role">UX/UI Designer</div>
+          <div class="dates">May 2022 - Jul 2022</div>
+          <p>Designed comprehensive booking and membership app for holiday resort. Created wireframes, prototypes, and high-fidelity designs while maintaining brand consistency.</p>
+        </div>
+
+        <div class="resume-item">
+          <h3>Recruitment Brochure Site</h3>
+          <div class="role">UI Designer</div>
+          <div class="dates">Feb 2022 - Apr 2022</div>
+          <p>Designed modern, engaging recruitment website to attract top talent. Focused on clear information architecture and compelling visual hierarchy.</p>
+        </div>
+      </div>
+
+      <!-- EDUCATION -->
+      <div class="resume-section reveal" style="transition-delay:.2s">
+        <h2>Education</h2>
+        
+        <div class="resume-item">
+          <h3>Undergraduate Degree BTech Graphic Design</h3>
+          <div class="role">University of Johannesburg</div>
+          <div class="dates">2018 - 2020</div>
+        </div>
+
+        <div class="resume-item">
+          <h3>Graphic Design Certificate</h3>
+          <div class="role">Professional Design Training</div>
+          <div class="dates">2017 - 2018</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div>
+      <!-- WORK HISTORY -->
+      <div class="resume-section reveal" style="transition-delay:.1s">
+        <h2>Work History</h2>
+        
+        <div class="resume-item">
+          <h3>2024-Present: UX/UI Designer</h3>
+          <div class="role">Software Company</div>
+          <p>Designing user interfaces and experiences for multiple client and internal projects. Leading design system development and mentoring junior designers.</p>
+        </div>
+
+        <div class="resume-item">
+          <h3>2023-2024: Senior UX Designer</h3>
+          <div class="role">Digital Agency</div>
+          <p>Led UX strategy for 5+ client projects. Conducted user research, created wireframes and prototypes, and conducted usability testing to validate designs.</p>
+        </div>
+
+        <div class="resume-item">
+          <h3>2022-2023: UI/UX Designer</h3>
+          <div class="role">Startup Environment</div>
+          <p>Collaborated with product and engineering teams to deliver high-quality interfaces. Designed responsive web and mobile experiences.</p>
+        </div>
+      </div>
+
+      <!-- SKILLS -->
+      <div class="resume-section reveal" style="transition-delay:.2s">
+        <h2>Skills</h2>
+        <div class="skills-grid">
+          <div class="skill-item">
+            <span class="skill-dot"></span>
+            <span>User Research</span>
+          </div>
+          <div class="skill-item">
+            <span class="skill-dot"></span>
+            <span>Wireframing</span>
+          </div>
+          <div class="skill-item">
+            <span class="skill-dot"></span>
+            <span>Prototyping</span>
+          </div>
+          <div class="skill-item">
+            <span class="skill-dot"></span>
+            <span>UI Design</span>
+          </div>
+          <div class="skill-item">
+            <span class="skill-dot"></span>
+            <span>Design Systems</span>
+          </div>
+          <div class="skill-item">
+            <span class="skill-dot"></span>
+            <span>Figma</span>
+          </div>
+          <div class="skill-item">
+            <span class="skill-dot"></span>
+            <span>Usability Testing</span>
+          </div>
+          <div class="skill-item">
+            <span class="skill-dot"></span>
+            <span>Information Architecture</span>
+          </div>
+          <div class="skill-item">
+            <span class="skill-dot"></span>
+            <span>Accessibility (WCAG)</span>
+          </div>
+          <div class="skill-item">
+            <span class="skill-dot"></span>
+            <span>Design Critique</span>
+          </div>
+          <div class="skill-item">
+            <span class="skill-dot"></span>
+            <span>Storytelling</span>
+          </div>
+          <div class="skill-item">
+            <span class="skill-dot"></span>
+            <span>CSS/HTML Basics</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TOOLS -->
+      <div class="resume-section reveal" style="transition-delay:.3s">
+        <h2>Tools</h2>
+        <div class="tools-list">
+          <div class="tool-tag">Figma</div>
+          <div class="tool-tag">Adobe XD</div>
+          <div class="tool-tag">Adobe CC</div>
+          <div class="tool-tag">Proto.io</div>
+          <div class="tool-tag">Azure DevOps</div>
+          <div class="tool-tag">VS Code</div>
+          <div class="tool-tag">Miro</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER COMPONENT PLACEHOLDER -->
+  <div id="footer-component" style="display: block;"></div>
+
+  <script src="components/loader.js"></script>
+  <script>
+    // Scroll reveal
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => e.isIntersecting && e.target.classList.add('in')),
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
+
+</body>
+</html>
